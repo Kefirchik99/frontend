@@ -1,0 +1,81 @@
+// src/components/ProductCard/ProductCard.scss
+.product-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    transition: box-shadow 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    &--out-of-stock {
+        opacity: 0.6;
+        pointer-events: none;
+    }
+
+    &__image-container {
+        position: relative;
+        height: 200px;
+        overflow: hidden;
+    }
+
+    &__image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    &__overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(255, 255, 255, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__out-of-stock {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #888;
+    }
+
+    &__details {
+        padding: 1rem;
+    }
+
+    &__name {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    &__price {
+        font-size: 1rem;
+        font-weight: bold;
+        color: #333;
+    }
+
+    &__quick-shop {
+        position: absolute;
+        bottom: 1rem;
+        right: 1rem;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        padding: 0.5rem;
+        cursor: pointer;
+        font-size: 1.2rem;
+
+        &:hover {
+            background-color: #45a049;
+        }
+    }
+}
