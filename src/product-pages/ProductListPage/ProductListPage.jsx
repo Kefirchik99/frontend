@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './ProductListPage.scss';
 import { gql, useQuery } from '@apollo/client';
 import ProductCard from '../../components/ProductCard';
@@ -15,25 +15,29 @@ const GET_PRODUCTS_BY_CATEGORY = gql`
   }
 `;
 
-// Functional Component to use useQuery
-const ProductListPage = ({ categoryName }) => {
-    const { loading, error, data } = useQuery(GET_PRODUCTS_BY_CATEGORY, {
-        variables: { category: categoryName },
-    });
+const ProductListPage = ({ activeCategory }) => {
+  const { loading, error, data } = useQuery(GET_PRODUCTS_BY_CATEGORY, {
+    variables: { category: activeCategory === 'all' ? null : activeCategory },
+  });
 
-    if (loading) return <p>Loading products...</p>;
-    if (error) return <p>Error loading products: {error.message}</p>;
-
-    return (
-        <div className="product-list-page">
-            <h2 className="product-list-page__title">Category: {categoryName}</h2>
-            <div className="product-list-page__products">
-                {data.products.map((product) => (
-                    <ProductCard key={product.id} product={product} />
-                ))}
-            </div>
-        </div>
-    );
+  return (
+    <div className="product-list-page">
+      <div className="product-list-page__content">
+        <h2 className="product-list-page__title">
+          {activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)}
+        </h2>
+        {loading && <p>Loading products...</p>}
+        {error && <p>Error loading products: {error.message}</p>}
+        {data && (
+          <div className="product-list-page__products">
+            {data.products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default ProductListPage;
