@@ -1,0 +1,38 @@
+.product-detail-page {
+    display: flex;
+    padding: 20px;
+
+    &__content {
+        display: flex;
+        gap: 20px;
+    }
+
+    &__gallery img {
+        max-width: 100px;
+        cursor: pointer;
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        button {
+            margin-top: 1rem;
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            cursor: pointer;
+
+            &:disabled {
+                background-color: gray;
+                cursor: not-allowed;
+            }
+        }
+    }
+}
