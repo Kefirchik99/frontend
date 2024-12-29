@@ -1,5 +1,6 @@
 import React from 'react';
 import './ProductListPage.scss';
+import { useParams } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import ProductCard from '../../components/ProductCard';
 
@@ -15,16 +16,23 @@ const GET_PRODUCTS_BY_CATEGORY = gql`
   }
 `;
 
-const ProductListPage = ({ activeCategory }) => {
+const ProductListPage = () => {
+  // useParams => { categoryName: 'all' or 'clothes' or 'tech' }
+  const { categoryName } = useParams();
+  const effectiveCategory = categoryName.toLowerCase() === 'all' ? null : categoryName;
+
   const { loading, error, data } = useQuery(GET_PRODUCTS_BY_CATEGORY, {
-    variables: { category: activeCategory === 'all' ? null : activeCategory },
+    variables: { category: effectiveCategory },
   });
+
+  // Capitalize for display
+  const pageTitle = categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
 
   return (
     <div className="product-list-page">
       <div className="product-list-page__content">
         <h2 className="product-list-page__title">
-          {activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)}
+          {pageTitle}
         </h2>
         {loading && <p>Loading products...</p>}
         {error && <p>Error loading products: {error.message}</p>}

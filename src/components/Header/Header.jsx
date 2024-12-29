@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import './Header.scss';
 import CartOverlay from '../CartOverlay';
 import { useContext } from 'react';
@@ -10,9 +11,12 @@ const categories = [
     { id: 'tech', name: 'Tech' },
 ];
 
-const Header = ({ activeCategory, onCategoryChange }) => {
+const Header = () => {
     const { totalItems } = useContext(CartContext);
     const [isCartOpen, setIsCartOpen] = React.useState(false);
+
+    // Current URL location
+    const location = useLocation();
 
     const handleCartToggle = () => {
         setIsCartOpen((prev) => !prev);
@@ -23,22 +27,23 @@ const Header = ({ activeCategory, onCategoryChange }) => {
             {/* Navigation Links */}
             <nav className="header__nav">
                 <ul className="header__categories">
-                    {categories.map((category) => (
-                        <li key={category.id}>
-                            <button
-                                className={`header__category ${activeCategory === category.id ? 'header__category--active' : ''
-                                    }`}
-                                onClick={() => onCategoryChange(category.id)}
-                                data-testid={
-                                    activeCategory === category.id
-                                        ? 'active-category-link'
-                                        : 'category-link'
-                                }
-                            >
-                                {category.name}
-                            </button>
-                        </li>
-                    ))}
+                    {categories.map((category) => {
+                        // e.g. "/category/all"
+                        const toPath = `/category/${category.id}`;
+                        // We'll check if the location.pathname includes "/category/all"
+                        const isActive = location.pathname === toPath;
+                        return (
+                            <li key={category.id}>
+                                <Link
+                                    to={toPath}
+                                    className={`header__category ${isActive ? 'header__category--active' : ''}`}
+                                    data-testid={isActive ? 'active-category-link' : 'category-link'}
+                                >
+                                    {category.name}
+                                </Link>
+                            </li>
+                        );
+                    })}
                 </ul>
             </nav>
 

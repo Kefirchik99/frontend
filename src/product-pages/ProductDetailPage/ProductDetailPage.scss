@@ -1,38 +1,45 @@
 .product-detail-page {
-    display: flex;
-    padding: 20px;
-
-    &__content {
-        display: flex;
-        gap: 20px;
+    &__attributes {
+        margin: 1rem 0;
     }
 
-    &__gallery img {
-        max-width: 100px;
+    &__attribute {
+        margin-bottom: 1rem;
+    }
+
+    &__attribute-items {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+
+    &__attribute-item {
+        min-width: 40px;
+        min-height: 40px;
+        border: 1px solid #ccc;
+        background-color: #fff;
         cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px;
+        font-size: 14px;
+        transition: 0.2s;
     }
 
-    &__info {
-        display: flex;
-        flex-direction: column;
+    &__attribute-item:hover {
+        border-color: #999;
+    }
 
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
+    &__attribute-item.selected {
+        border: 3px solid #f00;
+        /* made more obvious for demonstration */
+        background-color: #ffe5e5;
+        /* easier to see selection */
+    }
 
-        button {
-            margin-top: 1rem;
-            padding: 10px 20px;
-            background-color: #4caf50;
-            color: white;
-            border: none;
-            cursor: pointer;
-
-            &:disabled {
-                background-color: gray;
-                cursor: not-allowed;
-            }
-        }
+    &__attribute-value {
+        font-style: italic;
     }
 }

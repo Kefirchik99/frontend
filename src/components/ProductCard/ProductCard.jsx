@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './ProductCard.scss';
-import { Link } from 'react-router-dom'; // Import Link for navigation
+import { Link } from 'react-router-dom';
 
 class ProductCard extends Component {
     handleQuickShop = (e) => {
@@ -14,17 +14,15 @@ class ProductCard extends Component {
         const { product } = this.props;
         const isOutOfStock = !product.inStock;
 
-        // Safely access gallery and price values
-        const productImage = product.gallery?.[0] || 'https://via.placeholder.com/300'; // Placeholder if no image
+        const productImage = product.gallery?.[0] || 'https://via.placeholder.com/300';
         const productPrice = product.price ? `$${product.price.toFixed(2)}` : 'Price N/A';
 
         return (
             <Link
-                to={`/product/${product.id}`} // Navigate to ProductDetailPage on click
+                to={`/product/${product.id}`} // uses string ID from JSON
                 className={`product-card ${isOutOfStock ? 'product-card--out-of-stock' : ''}`}
                 data-testid={`product-${product.name.toLowerCase().replace(/\s+/g, '-')}`}
             >
-                {/* Product Image */}
                 <div className="product-card__image-container">
                     <img src={productImage} alt={product.name} className="product-card__image" />
                     {isOutOfStock && (
@@ -34,13 +32,11 @@ class ProductCard extends Component {
                     )}
                 </div>
 
-                {/* Product Details */}
                 <div className="product-card__details">
                     <p className="product-card__name">{product.name}</p>
                     <p className="product-card__price">{productPrice}</p>
                 </div>
 
-                {/* Quick Shop Button */}
                 {!isOutOfStock && (
                     <button
                         className="product-card__quick-shop"

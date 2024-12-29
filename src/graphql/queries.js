@@ -47,12 +47,18 @@ export const GET_PRODUCT_DETAILS = gql`
       description
       gallery
       price
-      attributes {
-        name
-        value
-        type
-      }
       inStock
+      attributes {
+        id
+        name
+        type
+        value
+        items {
+          id
+          displayValue
+          value
+        }
+      }
     }
   }
 `;
