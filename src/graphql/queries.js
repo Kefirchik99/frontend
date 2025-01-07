@@ -31,8 +31,12 @@ export const GET_PRODUCTS = gql`
       name
       attributes {
         name
-        value
         type
+        items {
+          id
+          displayValue
+          value
+        }
       }
     }
   }
@@ -52,7 +56,6 @@ export const GET_PRODUCT_DETAILS = gql`
         id
         name
         type
-        value
         items {
           id
           displayValue

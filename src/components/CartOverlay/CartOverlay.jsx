@@ -39,7 +39,9 @@ const CartOverlay = ({ onClose }) => {
                                 />
                                 <div className="cart-overlay__details">
                                     <p className="cart-overlay__name">{item.name}</p>
-                                    <p className="cart-overlay__price">${item.price.toFixed(2)}</p>
+                                    <p className="cart-overlay__price">
+                                        ${item.price.toFixed(2)}
+                                    </p>
 
                                     <div
                                         className="cart-overlay__attributes"
@@ -56,21 +58,35 @@ const CartOverlay = ({ onClose }) => {
                                                         .toLowerCase()
                                                         .replace(/\s+/g, '-')}`}
                                                 >
-                                                    {attr.options.map((option, optIndex) => (
-                                                        <span
-                                                            key={`${item.id}-${attr.name}-${option}-${optIndex}`}
-                                                            className={`cart-overlay__attribute-option ${attr.selectedOption === option ? 'selected' : ''
-                                                                }`}
-                                                            data-testid={`cart-item-attribute-${attr.name
-                                                                .toLowerCase()
-                                                                .replace(/\s+/g, '-')}-${option
-                                                                    .toLowerCase()
-                                                                    .replace(/\s+/g, '-')}${attr.selectedOption === option ? '-selected' : ''
-                                                                }`}
-                                                        >
-                                                            {option}
-                                                        </span>
-                                                    ))}
+                                                    <strong>{attr.name}:</strong>{" "}
+                                                    {attr.options.map((option, optIndex) => {
+                                                        const isSelected = attr.selectedOption === option;
+                                                        return (
+                                                            <span
+                                                                key={`${item.id}-${attr.name}-${option}-${optIndex}`}
+                                                                className={`cart-overlay__attribute-option ${isSelected ? 'selected' : ''
+                                                                    }`}
+                                                                style={
+                                                                    attr.type === 'swatch'
+                                                                        ? {
+                                                                            backgroundColor: option,
+                                                                            width: '20px',
+                                                                            height: '20px',
+                                                                            display: 'inline-block',
+                                                                            border: isSelected
+                                                                                ? '2px solid green'
+                                                                                : '1px solid #ccc',
+                                                                            margin: '0 3px',
+                                                                        }
+                                                                        : {}
+                                                                }
+                                                            >
+                                                                {/* If it's swatch, no text. 
+                                    If you prefer to show text too, do something else. */}
+                                                                {attr.type === 'swatch' ? '' : option}
+                                                            </span>
+                                                        );
+                                                    })}
                                                 </div>
                                             ))}
                                     </div>
@@ -117,7 +133,9 @@ const CartOverlay = ({ onClose }) => {
                 {cartItems && cartItems.length > 0 && (
                     <div className="cart-overlay__summary">
                         <p>Total Items: {totalItems}</p>
-                        <p data-testid="cart-total">Total Price: ${totalPrice.toFixed(2)}</p>
+                        <p data-testid="cart-total">
+                            Total Price: ${totalPrice.toFixed(2)}
+                        </p>
                         <button
                             className="cart-overlay__checkout"
                             onClick={handleCheckout}

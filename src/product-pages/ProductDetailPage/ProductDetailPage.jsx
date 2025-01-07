@@ -20,26 +20,27 @@ const ProductDetailPage = () => {
     if (error) return <p>Error loading product details: {error.message}</p>;
 
     const product = data?.product;
-    console.log(product.attributes)
     if (!product) return <p>Product not found.</p>;
 
+    // Set a selected attribute in local state
     const handleSelectAttribute = (attrName, itemValue) => {
-        // Log for debugging - remove if you don't need it
-        console.log('Selecting:', attrName, itemValue);
         setSelectedAttributes((prev) => ({
             ...prev,
             [attrName]: itemValue,
         }));
     };
 
+    // When user clicks "Add to Cart"
     const handleAddToCart = () => {
         if (!product.inStock) {
             alert('This product is out of stock!');
             return;
         }
-        // Build an attributes array with selectedOption
+
+        // Include 'type' in each attribute, so the CartOverlay sees 'swatch' or 'text'
         const attributesForCart = product.attributes.map((attr) => ({
             name: attr.name,
+            type: attr.type,  // <-- FIX: include type so the cart overlay can check swatch
             selectedOption: selectedAttributes[attr.name],
             options: attr.items.map((i) => i.value),
         }));
@@ -66,23 +67,22 @@ const ProductDetailPage = () => {
 
             <div className="product-detail-page__details">
                 <h1 className="product-detail-page__name">{product.name}</h1>
-                <p className="product-detail-page__price">${product.price.toFixed(2)}</p>
+                <p className="product-detail-page__price">
+                    ${product.price.toFixed(2)}
+                </p>
 
                 <div className="product-detail-page__attributes">
-                    {product.attributes?.map((attr) => (
-                        <div
-                            key={attr.id}
-                            className="product-detail-page__attribute"
-                            data-testid={`product-attribute-${attr.name.toLowerCase()}`}
-                        >
-                            console.log(attr)
-                            <h4>
-                                {attr.name} ({attr.type})
-                            </h4>
-                            {attr.items && attr.items.length > 0 ? (
+                    {product.attributes?.map((attr) => {
+                        return (
+                            <div
+                                key={`${attr.id}-${attr.name}`}
+                                className="product-detail-page__attribute"
+                            >
+                                <h4>
+                                    {attr.name} ({attr.type})
+                                </h4>
                                 <div className="product-detail-page__attribute-items">
-                                    {attr.items.map((item) => {
-                                        console.log('Attribute debug:', attr.type, attr.name, item.value);
+                                    {attr.items?.map((item) => {
                                         const isSelected =
                                             selectedAttributes[attr.name] === item.value;
                                         return (
@@ -97,27 +97,23 @@ const ProductDetailPage = () => {
                                                 {attr.type === 'swatch' ? (
                                                     <span
                                                         style={{
-                                                            display: 'inline-block',
+                                                            backgroundColor: item.value,
                                                             width: '20px',
                                                             height: '20px',
-                                                            backgroundColor: item.value,
+                                                            display: 'inline-block',
                                                             border: '1px solid #ccc',
                                                         }}
                                                     />
                                                 ) : (
-                                                    item.displayValue || item.value
+                                                    item.displayValue
                                                 )}
                                             </button>
                                         );
                                     })}
                                 </div>
-                            ) : (
-                                <p className="product-detail-page__attribute-value">
-                                    {attr.value}
-                                </p>
-                            )}
-                        </div>
-                    ))}
+                            </div>
+                        );
+                    })}
                 </div>
 
                 <button
