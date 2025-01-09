@@ -14,8 +14,6 @@ const categories = [
 const Header = () => {
     const { totalItems } = useContext(CartContext);
     const [isCartOpen, setIsCartOpen] = React.useState(false);
-
-    // Current URL location
     const location = useLocation();
 
     const handleCartToggle = () => {
@@ -28,15 +26,17 @@ const Header = () => {
             <nav className="header__nav">
                 <ul className="header__categories">
                     {categories.map((category) => {
-                        // e.g. "/category/all"
                         const toPath = `/category/${category.id}`;
-                        // We'll check if the location.pathname includes "/category/all"
+                        // Determine if this category is "active"
                         const isActive = location.pathname === toPath;
+
                         return (
                             <li key={category.id}>
                                 <Link
                                     to={toPath}
-                                    className={`header__category ${isActive ? 'header__category--active' : ''}`}
+                                    className={`header__category ${isActive ? 'header__category--active' : ''
+                                        }`}
+                                    // data-testid changes based on whether it's the active category
                                     data-testid={isActive ? 'active-category-link' : 'category-link'}
                                 >
                                     {category.name}
