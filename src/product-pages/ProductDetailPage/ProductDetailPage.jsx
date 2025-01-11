@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import parse from 'html-react-parser'; // <-- For safe HTML parsing
+import parse from 'html-react-parser';
 import { CartContext } from '../../context/CartContext';
 import { GET_PRODUCT_DETAILS } from '../../graphql/queries';
 import './ProductDetailPage.scss';
@@ -12,6 +12,8 @@ const ProductDetailPage = () => {
     const { addItem } = useContext(CartContext);
 
     const [selectedAttributes, setSelectedAttributes] = useState({});
+    // NEW: track which gallery image is currently selected
+    const [selectedIndex, setSelectedIndex] = useState(0);
 
     const { loading, error, data } = useQuery(GET_PRODUCT_DETAILS, {
         variables: { id },
@@ -23,33 +25,26 @@ const ProductDetailPage = () => {
     const product = data?.product;
     if (!product) return <p>Product not found.</p>;
 
-    // Handle attribute selection in local state
+    // The rest of your attribute logic remains the same:
     const handleSelectAttribute = (attrName, itemValue) => {
-        setSelectedAttributes((prev) => ({
-            ...prev,
-            [attrName]: itemValue,
-        }));
+        setSelectedAttributes((prev) => ({ ...prev, [attrName]: itemValue }));
     };
-
-    // Check if user selected all required attributes (some products might have none)
     const allAttributesSelected = product.attributes.every(
         (attr) => selectedAttributes[attr.name]
     );
+    const isAddToCartDisabled = !product.inStock || !allAttributesSelected;
 
-    // Add to cart
     const handleAddToCart = () => {
         if (!product.inStock) {
             alert('This product is out of stock!');
             return;
         }
-        // Build attribute array for cart
         const attributesForCart = product.attributes.map((attr) => ({
             name: attr.name,
             type: attr.type,
             selectedOption: selectedAttributes[attr.name],
             options: attr.items.map((i) => i.value),
         }));
-
         addItem({
             id: product.id,
             name: product.name,
@@ -57,38 +52,46 @@ const ProductDetailPage = () => {
             gallery: product.gallery,
             attributes: attributesForCart,
         });
-
         alert(`${product.name} added to cart!`);
         navigate('/');
     };
 
-    const isAddToCartDisabled = !product.inStock || !allAttributesSelected;
-
+    // The new layout:
     return (
         <div className="product-detail-page">
-            {/* Image Gallery */}
-            <div
-                className="product-detail-page__gallery"
-                data-testid="product-gallery"
-            >
-                {product.gallery.map((image, index) => (
-                    <img key={index} src={image} alt={`${product.name} - ${index}`} />
-                ))}
+            {/* Left column: Thumbnails */}
+            <div className="product-detail-page__thumbnails">
+                {product.gallery.map((imageUrl, idx) => {
+                    const isSelected = (idx === selectedIndex);
+                    return (
+                        <img
+                            key={idx}
+                            src={imageUrl}
+                            alt={`${product.name}-thumb-${idx}`}
+                            className={
+                                `product-detail-page__thumbnail ${isSelected ? 'selected' : ''}`
+                            }
+                            onClick={() => setSelectedIndex(idx)}
+                        />
+                    );
+                })}
             </div>
 
-            {/* Details */}
-            <div className="product-detail-page__details">
-                {/* Product Name */}
-                <h1 className="product-detail-page__name">
-                    {product.name}
-                </h1>
+            {/* Main image */}
+            <div className="product-detail-page__main-image">
+                <img
+                    src={product.gallery[selectedIndex]}
+                    alt={`${product.name}-main`}
+                />
+            </div>
 
-                {/* Product Price (2 decimal places) */}
+            {/* Right column: Details */}
+            <div className="product-detail-page__details">
+                <h1 className="product-detail-page__name">{product.name}</h1>
                 <p className="product-detail-page__price">
                     ${product.price.toFixed(2)}
                 </p>
 
-                {/* Product Attributes */}
                 <div className="product-detail-page__attributes">
                     {product.attributes.map((attr) => {
                         const kebabName = attr.name.toLowerCase().replace(/\s+/g, '-');
@@ -108,11 +111,10 @@ const ProductDetailPage = () => {
                                         return (
                                             <button
                                                 key={item.id}
-                                                className={`product-detail-page__attribute-item ${isSelected ? 'selected' : ''
-                                                    }`}
-                                                onClick={() =>
-                                                    handleSelectAttribute(attr.name, item.value)
+                                                className={
+                                                    `product-detail-page__attribute-item ${isSelected ? 'selected' : ''}`
                                                 }
+                                                onClick={() => handleSelectAttribute(attr.name, item.value)}
                                             >
                                                 {attr.type === 'swatch' ? (
                                                     <span
@@ -136,7 +138,6 @@ const ProductDetailPage = () => {
                     })}
                 </div>
 
-                {/* Add to Cart Button (disabled if out of stock or missing attributes) */}
                 <button
                     className="product-detail-page__add-to-cart"
                     data-testid="add-to-cart"
@@ -146,7 +147,6 @@ const ProductDetailPage = () => {
                     {product.inStock ? 'Add to Cart' : 'Out of Stock'}
                 </button>
 
-                {/* Product Description - parse HTML safely */}
                 <div
                     className="product-detail-page__description"
                     data-testid="product-description"

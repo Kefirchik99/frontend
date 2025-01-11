@@ -1,91 +1,31 @@
-.product-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    position: relative;
-    /* Important for absolute child to anchor */
-    text-align: center;
-    transition: box-shadow 0.3s ease;
-    cursor: pointer;
-    background-color: #fff;
-    /* Possibly needed if the background is transparent */
+/* ProductListPage.scss */
 
-    &:hover {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+/* Container for the entire product list page */
+.product-list-page {
+    &__content {
+        max-width: 1200px;
+        /* or the width from Figma */
+        margin: 2rem auto;
+        /* center horizontally, top/bottom spacing */
+        padding: 0 1rem;
+        /* small horizontal padding */
     }
 
-    /* If out-of-stock, fade and disable pointer events */
-    &--out-of-stock {
-        opacity: 0.6;
-        pointer-events: none;
+    &__title {
+        font-size: 2rem;
+        /* or from Figma */
+        margin-bottom: 2rem;
+        /* spacing below the heading */
+        text-transform: capitalize;
+        /* if you want "All" / "Women" / "Tech" to look nice */
     }
 
-    /* Show quick shop on hover if not out-of-stock */
-    &:not(.product-card--out-of-stock):hover .product-card__quick-shop {
-        display: block;
-    }
-
-    &__image-container {
-        position: relative;
-        height: 200px;
-        overflow: hidden;
-    }
-
-    &__image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
-
-    &__overlay {
-        position: absolute;
-        inset: 0;
-        background-color: rgba(255, 255, 255, 0.8);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    &__out-of-stock {
-        font-size: 1.2rem;
-        font-weight: bold;
-        color: #888;
-    }
-
-    &__details {
-        padding: 1rem;
-    }
-
-    &__name {
-        font-size: 1.1rem;
-        margin-bottom: 0.5rem;
-    }
-
-    &__price {
-        font-size: 1rem;
-        font-weight: bold;
-        color: #333;
-    }
-
-    &__quick-shop {
-        position: absolute;
-        bottom: 1rem;
-        right: 1rem;
-        background-color: #4caf50;
-        color: #fff;
-        border: none;
-        border-radius: 50%;
-        padding: 0.5rem;
-        cursor: pointer;
-        font-size: 1.2rem;
-        display: none;
-        /* default hidden */
-        z-index: 10;
-        /* ensure it's on top of the card */
-
-        &:hover {
-            background-color: #45a049;
-        }
+    /* The grid container for products */
+    &__products {
+        display: grid;
+        /* Adjust columns to match Figma – repeat(auto-fill, minmax(300px, 1fr)) is common */
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 2rem;
+        /* spacing between cards; pick what looks close to Figma */
     }
 }
