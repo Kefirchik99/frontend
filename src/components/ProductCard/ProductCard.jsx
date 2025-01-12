@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 import './ProductCard.scss';
 
 class ProductCard extends Component {
-    // Quick Shop: calls onQuickShop with product.id
-    // The parent or listing page will handle "default attributes" logic.
+    // Updated Quick Shop: prevents default navigation and stops propagation
     handleQuickShop = (e) => {
-        e.stopPropagation(); // prevent card click navigation
+        e.preventDefault();   // Prevents <Link> navigation
+        e.stopPropagation();  // Prevents card click navigation
         const { product, onQuickShop } = this.props;
         onQuickShop(product.id);
     };
@@ -50,15 +50,15 @@ class ProductCard extends Component {
                 </div>
 
                 {/* Quick Shop button hidden if out-of-stock.
-            It also only shows on hover via CSS. */}
+                It also only shows on hover via CSS. */}
                 {!isOutOfStock && (
                     <button
                         className="product-card__quick-shop"
                         onClick={this.handleQuickShop}
+                        title="Add to Cart"  // Added tooltip
                         aria-label="Quick Shop"
                         data-testid="quick-shop-button"
                     >
-                        {/* Example green cart icon or emoji */}
                         🛒
                     </button>
                 )}

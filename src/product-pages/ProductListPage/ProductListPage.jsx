@@ -59,7 +59,8 @@ const ProductListPage = () => {
       attributes: defaultAttributes,
     });
 
-    alert(`${product.name} added to cart with default attributes!`);
+    // Minimal change: update text
+    alert(`${product.name} added to cart!`);
   };
 
   if (loading) return <p>Loading products...</p>;
