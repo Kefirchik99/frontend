@@ -102,7 +102,7 @@ const ProductDetailPage = () => {
                                 data-testid={`product-attribute-${kebabName}`}
                             >
                                 <h4>
-                                    {attr.name} ({attr.type})
+                                    {attr.name}
                                 </h4>
                                 <div className="product-detail-page__attribute-items">
                                     {attr.items.map((item) => {
