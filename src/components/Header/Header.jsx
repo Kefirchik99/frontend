@@ -4,6 +4,7 @@ import './Header.scss';
 import CartOverlay from '../CartOverlay';
 import { useContext } from 'react';
 import { CartContext } from '../../context/CartContext';
+import { useHeader } from '../../context/HeaderContext'; // ✅ New: Context to manage category display
 
 const categories = [
     { id: 'all', name: 'All' },
@@ -15,6 +16,7 @@ const Header = () => {
     const { totalItems } = useContext(CartContext);
     const [isCartOpen, setIsCartOpen] = React.useState(false);
     const location = useLocation();
+    const { category } = useHeader(); // ✅ New: Get current category from context
 
     const handleCartToggle = () => {
         setIsCartOpen((prev) => !prev);
@@ -22,27 +24,33 @@ const Header = () => {
 
     return (
         <header className="header">
-            {/* Navigation Links */}
             <nav className="header__nav">
                 <ul className="header__categories">
-                    {categories.map((category) => {
-                        const toPath = `/category/${category.id}`;
+                    {categories.map((categoryItem) => {
+                        const toPath = `/category/${categoryItem.id}`;
                         const isActive = location.pathname === toPath;
 
                         return (
-                            <li key={category.id}>
+                            <li key={categoryItem.id}>
                                 <Link
                                     to={toPath}
                                     className={`header__category ${isActive ? 'header__category--active' : ''}`}
                                     data-testid={isActive ? 'active-category-link' : 'category-link'}
                                 >
-                                    {category.name}
+                                    {categoryItem.name}
                                 </Link>
                             </li>
                         );
                     })}
                 </ul>
             </nav>
+
+            {/* ✅ Display Selected Category Only When Present */}
+            {category && (
+                <div className="header__current-category">
+                    <span>{category}</span>
+                </div>
+            )}
 
             {/* Cart Button */}
             <div className="header__cart">

@@ -4,20 +4,21 @@
     display: flex;
     gap: 2rem;
     max-width: 1200px;
-    /* or pick your own */
     margin: 2rem auto;
     padding: 0 1rem;
 
+    &__gallery {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
     &__thumbnails {
-        flex: 0 0 80px;
-        /* a narrow column */
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
-        max-height: 600px;
-        /* limit vertical size */
-        overflow-y: auto;
-        /* scroll if there's too many images */
+        max-height: 600px; // Limit vertical height
+        overflow-y: auto; // Enable scrolling if thumbnails exceed the height
     }
 
     &__thumbnail {
@@ -25,7 +26,6 @@
         height: 70px;
         object-fit: cover;
         border: 1px solid #ccc;
-        border-radius: 4px;
         cursor: pointer;
 
         &.selected {
@@ -34,8 +34,7 @@
     }
 
     &__main-image {
-        flex: 1;
-        /* takes leftover space */
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -44,14 +43,32 @@
             max-width: 100%;
             max-height: 600px;
             object-fit: cover;
-            border: 1px solid #ccc;
             border-radius: 4px;
         }
     }
 
+    .carousel-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+
+        &.left {
+            left: 10px;
+        }
+
+        &.right {
+            right: 10px;
+        }
+    }
+
     &__details {
-        flex: 0 0 300px;
-        /* or flex: 0 0 400px, up to you */
+        flex: 1; // Allow details to grow naturally
+        max-width: 400px; // Match spacious layout
         display: flex;
         flex-direction: column;
 
@@ -67,20 +84,23 @@
         }
 
         .product-detail-page__attributes {
-            margin: 1rem 0;
+            margin: 1.5rem 0; // Add spacing between attributes and other sections
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1.5rem; // Ensure attributes have sufficient spacing
         }
 
         .product-detail-page__attribute-items {
             display: flex;
-            gap: 0.5rem;
+            flex-wrap: wrap; // Wrap attributes to the next line if needed
+            gap: 0.75rem; // Add spacing between attribute items
         }
 
         .product-detail-page__attribute-item {
             border: 1px solid #ccc;
-            padding: 0.5rem 1rem;
+            padding: 0.7rem 1.5rem; // Increase padding for better spacing
+            min-width: 80px; // Prevent buttons from being too narrow
+            text-align: center;
             cursor: pointer;
 
             &.selected {
@@ -94,7 +114,7 @@
             color: #fff;
             padding: 1rem 2rem;
             font-size: 1rem;
-            margin-top: 1rem;
+            margin-top: 1.5rem; // Increase spacing above the button
             cursor: pointer;
             transition: background-color 0.3s ease;
 
