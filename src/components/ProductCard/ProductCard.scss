@@ -1,47 +1,38 @@
-/* ProductCard.scss */
+@import "../../styles/_typography";
+
 .product-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
     position: relative;
-    text-align: center;
-    transition: box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
     cursor: pointer;
-    background-color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: box-shadow 0.3s ease;
+    border: none;
+    overflow: hidden; // Prevents child elements from overflowing
 
     &:hover {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19);
     }
 
-    /* Out-of-stock: greyed out, no quick shop */
     &--out-of-stock {
-        opacity: 0.6;
-        pointer-events: none;
-        /* disable hover/click */
-    }
-
-    /* Quick shop only shown if in-stock (not out-of-stock) on hover */
-    &:not(.product-card--out-of-stock):hover .product-card__quick-shop {
-        opacity: 1;
-        /* or display: block; either works if we handle the default differently */
+        opacity: 0.5;
+        filter: grayscale(100%);
+        pointer-events: auto;
     }
 
     &__image-container {
         position: relative;
         width: 100%;
-        /* If you want a square ratio from Figma, do a padding-top trick or fixed height.
-         We'll keep a fixed height for simplicity:
-      */
-        height: 300px;
-        /* pick a height that matches Figma ratio */
+        height: 330px;
         overflow: hidden;
     }
 
     &__image {
         width: 100%;
         height: 100%;
-        object-fit: cover;
-        /* fill entire container without distortion */
+        object-fit: contain;
         display: block;
     }
 
@@ -57,45 +48,64 @@
     &__out-of-stock {
         font-size: 1.2rem;
         font-weight: bold;
-        color: #888;
+        color: #8d8f9a;
     }
 
     &__details {
-        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0.8rem;
     }
 
     &__name {
-        font-size: 1.1rem;
-        margin-bottom: 0.5rem;
+        font-family: $font-primary;
+        font-size: 18px;
+        font-weight: 300;
+        line-height: 28.8px;
+        text-align: left;
+        color: #1d1f22;
+        text-decoration: none;
+        margin-bottom: 4px;
     }
 
     &__price {
-        font-size: 1rem;
-        font-weight: bold;
-        color: #333;
+        font-family: $font-primary;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 28.8px;
+        text-align: left;
+        color: #1d1f22;
+        text-decoration: none;
     }
 
-    /* Quick Shop button */
     &__quick-shop {
         position: absolute;
-        bottom: 1rem;
-        right: 1rem;
-        background-color: #4caf50;
-        /* or use the Figma color (#5ECE7B maybe) */
-        color: #fff;
-        border: none;
+        right: 10px;
+        bottom: 10px; // Keeps it inside the card
+        width: 52px;
+        height: 52px;
         border-radius: 50%;
-        padding: 0.5rem;
+        background: #5ece7b;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         cursor: pointer;
-        font-size: 1.2rem;
-
-        /* Make it invisible by default */
         opacity: 0;
-        transition: opacity 0.2s ease;
-        /* so it fades in on hover */
+        transition: opacity 0.2s ease, transform 0.2s ease;
 
         &:hover {
-            background-color: #45a049;
+            transform: scale(1.1);
         }
+
+        i {
+            font-size: 20px;
+            color: #fff;
+        }
+    }
+
+    &:hover &__quick-shop {
+        opacity: 1;
     }
 }

@@ -1,31 +1,23 @@
-/* ProductListPage.scss */
+@import "../../styles/_typography";
 
-/* Container for the entire product list page */
 .product-list-page {
-    &__content {
-        max-width: 1200px;
-        /* or the width from Figma */
-        margin: 2rem auto;
-        /* center horizontally, top/bottom spacing */
-        padding: 0 1rem;
-        /* small horizontal padding */
-    }
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
 
     &__title {
-        font-size: 2rem;
-        /* or from Figma */
+        font-family: $font-primary;
+        font-size: 42px;
+        font-weight: 400;
+        line-height: 67.2px;
+        text-align: left;
         margin-bottom: 2rem;
-        /* spacing below the heading */
-        text-transform: capitalize;
-        /* if you want "All" / "Women" / "Tech" to look nice */
     }
 
-    /* The grid container for products */
     &__products {
         display: grid;
-        /* Adjust columns to match Figma – repeat(auto-fill, minmax(300px, 1fr)) is common */
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 2rem;
-        /* spacing between cards; pick what looks close to Figma */
     }
 }

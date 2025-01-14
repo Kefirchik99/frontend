@@ -27,16 +27,13 @@ const Header = () => {
                 <ul className="header__categories">
                     {categories.map((category) => {
                         const toPath = `/category/${category.id}`;
-                        // Determine if this category is "active"
                         const isActive = location.pathname === toPath;
 
                         return (
                             <li key={category.id}>
                                 <Link
                                     to={toPath}
-                                    className={`header__category ${isActive ? 'header__category--active' : ''
-                                        }`}
-                                    // data-testid changes based on whether it's the active category
+                                    className={`header__category ${isActive ? 'header__category--active' : ''}`}
                                     data-testid={isActive ? 'active-category-link' : 'category-link'}
                                 >
                                     {category.name}
@@ -49,22 +46,14 @@ const Header = () => {
 
             {/* Cart Button */}
             <div className="header__cart">
-                <button
-                    className="header__cart-btn"
-                    onClick={handleCartToggle}
-                    data-testid="cart-btn"
-                >
-                    🛒
-                    {totalItems > 0 && (
-                        <span className="header__cart-count">{totalItems}</span>
-                    )}
+                <button className="header__cart-btn" onClick={handleCartToggle} data-testid="cart-btn">
+                    <i className="bi bi-cart"></i>
+                    {totalItems > 0 && <span className="header__cart-count">{totalItems}</span>}
                 </button>
             </div>
 
             {/* Cart Overlay */}
-            {isCartOpen && (
-                <CartOverlay isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
-            )}
+            {isCartOpen && <CartOverlay isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />}
         </header>
     );
 };
