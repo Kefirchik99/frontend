@@ -42,7 +42,9 @@
     }
 
     &__cart {
-        position: relative;
+        position: relative; // ✅ Keep relative positioning to align overlay properly
+        display: flex;
+        align-items: center;
     }
 
     &__cart-btn {
@@ -66,5 +68,14 @@
         justify-content: center;
         align-items: center;
         font-size: 0.8rem;
+    }
+
+    /* ✅ NEW: Ensuring cart overlay is positioned correctly */
+    .cart-overlay {
+        position: absolute; // Ensure it's within the header
+        top: 50px; // Adjust based on the header height
+        right: 0;
+        width: 400px;
+        z-index: 150;
     }
 }

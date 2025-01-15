@@ -1,200 +1,153 @@
 @import "../../styles/_typography";
 
 .cart-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 100;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    width: 400px;
+    background-color: #fff;
+    z-index: 200;
+    padding: 1.5rem;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    max-height: 80vh;
 
     &__background {
-        position: absolute;
-        top: 0;
+        position: fixed;
+        top: 60px; // Stops at the header
         left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 50;
-    }
-
-    &__content {
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 360px;
-        /* Figma might show ~360px or 400px width */
-        height: 100%;
-        background-color: #fff;
-        z-index: 100;
-        padding: 1.5rem;
-        box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
-        overflow-y: auto;
-    }
-
-    &__title {
-        font-size: 1.2rem;
-        margin-bottom: 1rem;
-    }
-
-    &__items {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
+        width: 100%;
+        height: calc(100% - 60px); // Does not cover the header
+        background-color: rgba(0, 0, 0, 0.3);
+        z-index: 150;
     }
 
     &__item {
         display: flex;
+        align-items: center;
+        justify-content: space-between;
         gap: 1rem;
-        /* optional border-bottom: 1px solid #eee; or margin-bottom: 1rem; */
+        padding: 1rem 0;
+        border-bottom: 1px solid #e0e0e0;
     }
 
     &__image {
         width: 80px;
         height: 80px;
         object-fit: cover;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        flex-shrink: 0;
-        /* so it doesn't resize if text is wide */
     }
 
     &__info {
-        display: flex;
-        flex-direction: column;
         flex: 1;
-        /* take remaining space */
     }
 
     &__name {
-        font-weight: 600;
-        margin-bottom: 0.25rem;
+        font-family: "Raleway", sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        color: #1D1F22;
+        margin-bottom: 0.5rem;
     }
 
     &__price {
-        font-weight: 500;
-        margin-bottom: 0.5rem;
+        font-family: "Raleway", sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        color: #1D1F22;
+        margin-bottom: 1rem;
     }
 
     &__attributes {
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
-        margin-bottom: 0.5rem;
     }
 
-    &__attribute {
+    &__attribute-options {
         display: flex;
-        flex-direction: column;
-
-        .cart-overlay__attribute-label {
-            font-size: 0.8rem;
-            color: #555;
-            margin-bottom: 2px;
-        }
-
-        .cart-overlay__attribute-options {
-            display: flex;
-            gap: 4px;
-        }
+        gap: 0.5rem;
     }
 
     &__attribute-option {
+        padding: 4px 8px;
+        font-size: 12px;
         border: 1px solid #ccc;
-        padding: 2px 6px;
-        font-size: 0.85rem;
         cursor: pointer;
+        text-align: center;
 
         &.selected {
-            border-color: #5ece7b;
-            background-color: #f3f3f3;
+            background-color: #1D1F22;
+            color: #fff;
         }
-    }
 
-    &__actions {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-top: auto;
-        /* push up if we want the quantity at bottom */
+        &.cart-overlay__color-swatch {
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+
+            &.selected {
+                outline: 2px solid #5ECE7B;
+            }
+        }
     }
 
     &__quantity {
         display: flex;
+        flex-direction: column;
         align-items: center;
-        gap: 0.5rem;
+        gap: 4px;
 
         button {
-            width: 24px;
-            height: 24px;
-            background: #fff;
+            width: 28px;
+            height: 28px;
+            background: none;
             border: 1px solid #ccc;
             cursor: pointer;
+
+            &:hover {
+                background-color: #f3f3f3;
+            }
         }
 
         span {
-            min-width: 20px;
-            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
         }
-    }
-
-    &__remove {
-        background: none;
-        border: none;
-        color: #999;
-        cursor: pointer;
-        font-size: 0.85rem;
-        text-decoration: underline;
-
-        &:hover {
-            color: #333;
-        }
-    }
-
-    &__empty {
-        text-align: center;
-        margin-top: 2rem;
     }
 
     &__summary {
-        margin-top: 1.5rem;
+        margin-top: 1rem;
+    }
 
-        .cart-overlay__total-line {
-            display: flex;
-            justify-content: space-between;
-            font-size: 1rem;
-            margin-bottom: 1rem;
-        }
+    &__total-line {
+        display: flex;
+        justify-content: space-between;
+        font-family: "Roboto", sans-serif;
+        font-size: 16px;
+        font-weight: 500;
+        color: #1D1F22;
     }
 
     &__checkout {
         width: 100%;
-        padding: 0.75rem;
-        background-color: #5ece7b;
+        padding: 1rem;
+        background-color: #5ECE7B;
         color: #fff;
-        font-size: 1rem;
-        font-weight: 600;
+        font-size: 16px;
+        font-weight: bold;
         border: none;
         cursor: pointer;
-        text-transform: uppercase;
 
         &:hover {
-            background-color: #4caf50;
+            background-color: #4CAF50;
         }
     }
 
-    &__close {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: none;
-        color: #333;
-        border: none;
-        font-size: 1.5rem;
-        cursor: pointer;
-
-        &:hover {
-            color: #111;
-        }
+    &__title {
+        font-family: "Roboto", sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        color: #1D1F22;
+        margin-bottom: 1rem;
     }
 }
