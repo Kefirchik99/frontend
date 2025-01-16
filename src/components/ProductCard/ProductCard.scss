@@ -1,5 +1,3 @@
-@import "../../styles/_typography";
-
 .product-card {
     position: relative;
     display: flex;
@@ -24,7 +22,7 @@
 
     &__image-container {
         position: relative;
-        width: 100%;
+        width: 354px;
         height: 330px;
         overflow: hidden;
     }
@@ -32,6 +30,7 @@
     &__image {
         width: 100%;
         height: 100%;
+        padding: 10px;
         object-fit: contain;
         display: block;
     }
@@ -59,7 +58,7 @@
     }
 
     &__name {
-        font-family: $font-primary;
+        font-family: Raleway;
         font-size: 18px;
         font-weight: 300;
         line-height: 28.8px;
@@ -70,7 +69,7 @@
     }
 
     &__price {
-        font-family: $font-primary;
+        font-family: 'Raleway', sans-serif;
         font-size: 18px;
         font-weight: 400;
         line-height: 28.8px;
@@ -81,8 +80,8 @@
 
     &__quick-shop {
         position: absolute;
-        right: 10px;
-        bottom: 10px; // Keeps it inside the card
+        right: 45px;
+        bottom: 65px;
         width: 52px;
         height: 52px;
         border-radius: 50%;

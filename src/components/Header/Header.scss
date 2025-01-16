@@ -1,13 +1,14 @@
-@import "../../styles/_typography";
-
 .header {
     width: 100%;
+    height: 45px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 1rem 0;
     background-color: #fff;
-    border-bottom: none;
+
+    &__menu {
+        padding: 0 16px;
+        box-sizing: border-box;
+    }
 
     &__nav {
         display: flex;
@@ -21,28 +22,42 @@
     }
 
     &__category {
-        font-family: $font-primary;
+        font-family: "Raleway", sans-serif;
         font-size: 16px;
-        font-weight: 400;
+        font-weight: 400; // Default for non-selected categories
+        line-height: 19.2px;
         text-align: center;
         text-decoration: none;
         color: #1d1f22;
+        position: relative; // To enable positioning for underline
+        padding-bottom: 5px; // Space for the underline
+
+        &:hover {
+            color: #5ece7b; // Optional hover effect
+        }
 
         &--active {
-            font-weight: 600;
+            font-weight: 600; // Bold for selected categories
             color: #5ece7b;
-            border-bottom: 2px solid #5ece7b;
+
+            /* Green underline */
+            &::after {
+                content: "";
+                position: absolute;
+                bottom: -20px; // Align underline at the bottom
+                left: 0;
+                width: 100%; // Full width of the text
+                height: 2px; // Thickness of the underline
+                background-color: #5ece7b;
+            }
         }
     }
 
-    &__current-category {
-        font-size: 1.2rem;
-        font-weight: bold;
-        color: #1d1f22;
+    &__cart-container {
+        position: relative;
     }
 
     &__cart {
-        position: relative; // ✅ Keep relative positioning to align overlay properly
         display: flex;
         align-items: center;
     }
@@ -70,12 +85,12 @@
         font-size: 0.8rem;
     }
 
-    /* ✅ NEW: Ensuring cart overlay is positioned correctly */
+    /* Cart Overlay Styling */
     .cart-overlay {
-        position: absolute; // Ensure it's within the header
-        top: 50px; // Adjust based on the header height
+        position: absolute;
+        /* Ensure it aligns directly below the header */
         right: 0;
         width: 400px;
-        z-index: 150;
+        z-index: 200;
     }
 }

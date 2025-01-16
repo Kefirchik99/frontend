@@ -7,9 +7,9 @@ import { CartContext } from "../../context/CartContext";
 import { useHeader } from "../../context/HeaderContext";
 
 const categories = [
-    { id: "all", name: "All" },
-    { id: "clothes", name: "Clothes" },
-    { id: "tech", name: "Tech" },
+    { id: "all", name: "ALL" },
+    { id: "clothes", name: "CLOTHES" },
+    { id: "tech", name: "TECH" },
 ];
 
 const Header = () => {
@@ -34,7 +34,7 @@ const Header = () => {
                                 category === categoryItem.id.toLowerCase());
 
                         return (
-                            <li key={categoryItem.id}>
+                            <li className="header__menu" key={categoryItem.id}>
                                 <Link
                                     to={toPath}
                                     className={`header__category ${isActive ? "header__category--active" : ""
@@ -65,11 +65,9 @@ const Header = () => {
                         )}
                     </button>
 
-                    {/* Cart Overlay (Correctly Positioned Under Cart Button) */}
+                    {/* Cart Overlay */}
                     {isCartOpen && (
-                        <div className="header__cart-overlay">
-                            <CartOverlay isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
-                        </div>
+                        <CartOverlay isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
                     )}
                 </div>
             </div>

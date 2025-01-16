@@ -63,7 +63,6 @@ const ProductDetailPage = () => {
             gallery: product.gallery,
             attributes: attributesForCart,
         });
-        alert(`${product.name} added to cart!`);
         navigate("/");
     };
 

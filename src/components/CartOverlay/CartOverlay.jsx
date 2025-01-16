@@ -31,7 +31,6 @@ const CartOverlay = ({ onClose }) => {
                                     <div className="cart-overlay__info">
                                         <p className="cart-overlay__name">{item.name}</p>
                                         <p className="cart-overlay__price">${item.price.toFixed(2)}</p>
-
                                         <div className="cart-overlay__attributes">
                                             {item.attributes?.map((attr) => (
                                                 <div key={attr.name} className="cart-overlay__attribute">
@@ -91,7 +90,7 @@ const CartOverlay = ({ onClose }) => {
                     {cartItems.length > 0 && (
                         <div className="cart-overlay__summary">
                             <div className="cart-overlay__total-line">
-                                <span>Total:</span>
+                                <span>Total</span>
                                 <span>${totalPrice.toFixed(2)}</span>
                             </div>
                             <button className="cart-overlay__checkout" onClick={handleCheckout}>

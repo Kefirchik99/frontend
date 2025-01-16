@@ -4,7 +4,7 @@ import { CartProvider } from './context/CartContext';
 import { HeaderProvider } from './context/HeaderContext';
 import Header from './components/Header';
 import AppRoutes from './routes';
-import './styles/index.scss';
+import './styles/main.scss';
 
 const App = () => {
   return (
