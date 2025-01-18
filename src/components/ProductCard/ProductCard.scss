@@ -1,4 +1,4 @@
-// src/components/ProductCard/ProductCard.scss
+/* ProductCard.scss */
 .product-card {
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -7,19 +7,33 @@
     text-align: center;
     transition: box-shadow 0.3s ease;
     cursor: pointer;
+    background-color: #fff;
 
     &:hover {
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
+    /* Out-of-stock: greyed out, no quick shop */
     &--out-of-stock {
         opacity: 0.6;
         pointer-events: none;
+        /* disable hover/click */
+    }
+
+    /* Quick shop only shown if in-stock (not out-of-stock) on hover */
+    &:not(.product-card--out-of-stock):hover .product-card__quick-shop {
+        opacity: 1;
+        /* or display: block; either works if we handle the default differently */
     }
 
     &__image-container {
         position: relative;
-        height: 200px;
+        width: 100%;
+        /* If you want a square ratio from Figma, do a padding-top trick or fixed height.
+         We'll keep a fixed height for simplicity:
+      */
+        height: 300px;
+        /* pick a height that matches Figma ratio */
         overflow: hidden;
     }
 
@@ -27,14 +41,13 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+        /* fill entire container without distortion */
+        display: block;
     }
 
     &__overlay {
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        inset: 0;
         background-color: rgba(255, 255, 255, 0.8);
         display: flex;
         align-items: center;
@@ -62,17 +75,24 @@
         color: #333;
     }
 
+    /* Quick Shop button */
     &__quick-shop {
         position: absolute;
         bottom: 1rem;
         right: 1rem;
         background-color: #4caf50;
+        /* or use the Figma color (#5ECE7B maybe) */
         color: #fff;
         border: none;
         border-radius: 50%;
         padding: 0.5rem;
         cursor: pointer;
         font-size: 1.2rem;
+
+        /* Make it invisible by default */
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        /* so it fades in on hover */
 
         &:hover {
             background-color: #45a049;

@@ -1,22 +1,22 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import './Header.scss';
-import CartOverlay from '../CartOverlay';
-import { useContext } from 'react';
-import { CartContext } from '../../context/CartContext';
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
+import "./Header.scss";
+import CartOverlay from "../CartOverlay";
+import { useContext } from "react";
+import { CartContext } from "../../context/CartContext";
+import { useHeader } from "../../context/HeaderContext";
 
 const categories = [
-    { id: 'all', name: 'All' },
-    { id: 'clothes', name: 'Clothes' },
-    { id: 'tech', name: 'Tech' },
+    { id: "all", name: "ALL" },
+    { id: "clothes", name: "CLOTHES" },
+    { id: "tech", name: "TECH" },
 ];
 
 const Header = () => {
     const { totalItems } = useContext(CartContext);
     const [isCartOpen, setIsCartOpen] = React.useState(false);
-
-    // Current URL location
     const location = useLocation();
+    const { category } = useHeader();
 
     const handleCartToggle = () => {
         setIsCartOpen((prev) => !prev);
@@ -24,22 +24,26 @@ const Header = () => {
 
     return (
         <header className="header">
-            {/* Navigation Links */}
             <nav className="header__nav">
                 <ul className="header__categories">
-                    {categories.map((category) => {
-                        // e.g. "/category/all"
-                        const toPath = `/category/${category.id}`;
-                        // We'll check if the location.pathname includes "/category/all"
-                        const isActive = location.pathname === toPath;
+                    {categories.map((categoryItem) => {
+                        const toPath = `/category/${categoryItem.id.toLowerCase()}`;
+                        const isActive =
+                            location.pathname === toPath ||
+                            (location.pathname.startsWith("/product/") &&
+                                category === categoryItem.id.toLowerCase());
+
                         return (
-                            <li key={category.id}>
+                            <li className="header__menu" key={categoryItem.id}>
                                 <Link
                                     to={toPath}
-                                    className={`header__category ${isActive ? 'header__category--active' : ''}`}
-                                    data-testid={isActive ? 'active-category-link' : 'category-link'}
+                                    className={`header__category ${isActive ? "header__category--active" : ""
+                                        }`}
+                                    data-testid={
+                                        isActive ? "active-category-link" : "category-link"
+                                    }
                                 >
-                                    {category.name}
+                                    {categoryItem.name}
                                 </Link>
                             </li>
                         );
@@ -47,24 +51,26 @@ const Header = () => {
                 </ul>
             </nav>
 
-            {/* Cart Button */}
-            <div className="header__cart">
-                <button
-                    className="header__cart-btn"
-                    onClick={handleCartToggle}
-                    data-testid="cart-btn"
-                >
-                    🛒
-                    {totalItems > 0 && (
-                        <span className="header__cart-count">{totalItems}</span>
-                    )}
-                </button>
-            </div>
+            {/* Cart Button and Cart Overlay Wrapper */}
+            <div className="header__cart-container">
+                <div className="header__cart">
+                    <button
+                        className="header__cart-btn"
+                        onClick={handleCartToggle}
+                        data-testid="cart-btn"
+                    >
+                        <i className="bi bi-cart"></i>
+                        {totalItems > 0 && (
+                            <span className="header__cart-count">{totalItems}</span>
+                        )}
+                    </button>
 
-            {/* Cart Overlay */}
-            {isCartOpen && (
-                <CartOverlay isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
-            )}
+                    {/* Cart Overlay */}
+                    {isCartOpen && (
+                        <CartOverlay isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+                    )}
+                </div>
+            </div>
         </header>
     );
 };
