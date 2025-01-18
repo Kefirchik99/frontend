@@ -23,40 +23,22 @@
 
     &__item {
         display: flex;
-        justify-content: space-between;
-        /* Space between image, info, and buttons */
         align-items: center;
-        /* Vertically align all elements */
         gap: 1rem;
+        /* Space between the image, quantity, and info */
         padding: 10px 0;
-        /* Add some padding between items */
-    }
-
-    &__info {
-        flex: 1;
-        /* Allow the product info to take more space */
-        text-align: left;
-    }
-
-    &__image {
-        width: 121px;
-        height: 167px;
-        object-fit: contain;
-        flex: 2;
-        /* Smaller width for the image */
-        margin-right: 0.5rem;
-        /* Add a small gap between the image and buttons */
     }
 
     &__quantity {
         display: flex;
         flex-direction: column;
-        /* Stack the buttons and quantity vertically */
         align-items: center;
-        /* Center align the buttons */
         justify-content: center;
-        /* Ensure buttons and quantity are equally spaced */
         gap: 5px;
+        flex-shrink: 0;
+        /* Prevent shrinking */
+        margin-right: 1rem;
+        /* Space between quantity and image */
 
         button {
             width: 28px;
@@ -75,6 +57,20 @@
             font-size: 14px;
             font-weight: bold;
         }
+    }
+
+    &__image {
+        width: 121px;
+        height: 167px;
+        object-fit: contain;
+        flex-shrink: 0;
+        /* Prevent image from shrinking */
+    }
+
+    &__info {
+        flex: 1;
+        /* Allow product info to take up remaining space */
+        text-align: left;
     }
 
     &__name {

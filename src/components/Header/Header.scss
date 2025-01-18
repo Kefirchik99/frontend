@@ -12,13 +12,12 @@
 
     &__nav {
         display: flex;
-        gap: 2rem;
+        gap: 1rem;
     }
 
     &__categories {
         list-style: none;
         display: flex;
-        gap: 2rem;
     }
 
     &__category {
@@ -92,5 +91,24 @@
         right: 0;
         width: 400px;
         z-index: 200;
+    }
+
+    &__logo {
+        /* Keep the header height at 45px total */
+        height: 100%;
+        display: flex;
+        align-items: center;
+        /* This ensures the logo is vertically centered in the 45px header */
+
+        img {
+            /* Restrict the image so it does not exceed the header’s height */
+            max-height: 60px;
+            /* or 35px, or whatever you want smaller than 45px */
+            padding-bottom: 15px;
+            width: auto;
+            /* Keeps the aspect ratio correct */
+            display: block;
+            /* removes any default inline spacing */
+        }
     }
 }

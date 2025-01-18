@@ -5,6 +5,7 @@ import CartOverlay from "../CartOverlay";
 import { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
 import { useHeader } from "../../context/HeaderContext";
+import logo from "../../assets/a-logo.png";
 
 const categories = [
     { id: "all", name: "ALL" },
@@ -50,6 +51,11 @@ const Header = () => {
                     })}
                 </ul>
             </nav>
+
+            {/* Logo in the center */}
+            <div className="header__logo">
+                <img src={logo} alt="Logo" />
+            </div>
 
             {/* Cart Button and Cart Overlay Wrapper */}
             <div className="header__cart-container">
