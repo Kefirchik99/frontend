@@ -57,7 +57,6 @@ const ProductListPage = () => {
       gallery: product.gallery,
       attributes: defaultAttributes,
     });
-
     alert(`${product.name} added to cart!`);
   };
 
