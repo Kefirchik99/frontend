@@ -1,39 +1,65 @@
 .header {
+    width: 100%;
+    height: 45px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
     background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    &__menu {
+        padding: 0 16px;
+        box-sizing: border-box;
+    }
 
     &__nav {
-        flex: 1;
+        display: flex;
+        gap: 2rem;
     }
 
     &__categories {
         list-style: none;
         display: flex;
-        gap: 1.5rem;
-        margin: 0;
-        padding: 0;
+        gap: 2rem;
+    }
 
-        & li {
-            cursor: pointer;
-            font-weight: bold;
+    &__category {
+        font-family: "Raleway", sans-serif;
+        font-size: 16px;
+        font-weight: 400; // Default for non-selected categories
+        line-height: 19.2px;
+        text-align: center;
+        text-decoration: none;
+        color: #1d1f22;
+        position: relative; // To enable positioning for underline
+        padding-bottom: 5px; // Space for the underline
 
-            &:hover {
-                color: #4caf50;
+        &:hover {
+            color: #5ece7b; // Optional hover effect
+        }
+
+        &--active {
+            font-weight: 600; // Bold for selected categories
+            color: #5ece7b;
+
+            /* Green underline */
+            &::after {
+                content: "";
+                position: absolute;
+                bottom: -20px; // Align underline at the bottom
+                left: 0;
+                width: 100%; // Full width of the text
+                height: 2px; // Thickness of the underline
+                background-color: #5ece7b;
             }
         }
     }
 
-    &__category--active {
-        color: #4caf50;
-        border-bottom: 2px solid #4caf50;
+    &__cart-container {
+        position: relative;
     }
 
     &__cart {
-        position: relative;
+        display: flex;
+        align-items: center;
     }
 
     &__cart-btn {
@@ -48,7 +74,7 @@
         position: absolute;
         top: -10px;
         right: -10px;
-        background-color: red;
+        background-color: black;
         color: white;
         border-radius: 50%;
         width: 20px;
@@ -57,5 +83,14 @@
         justify-content: center;
         align-items: center;
         font-size: 0.8rem;
+    }
+
+    /* Cart Overlay Styling */
+    .cart-overlay {
+        position: absolute;
+        /* Ensure it aligns directly below the header */
+        right: 0;
+        width: 400px;
+        z-index: 200;
     }
 }

@@ -1,28 +1,26 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import './ProductCard.scss';
 
 class ProductCard extends Component {
-    // Quick Shop: calls onQuickShop with product.id
-    // The parent or listing page will handle "default attributes" logic.
     handleQuickShop = (e) => {
-        e.stopPropagation(); // prevent card click navigation
+        e.preventDefault();
+        e.stopPropagation();
         const { product, onQuickShop } = this.props;
         onQuickShop(product.id);
     };
 
     render() {
         const { product } = this.props;
-        // out-of-stock => image greyed out
         const isOutOfStock = !product.inStock;
 
-        // main image or placeholder
+        // Main product image or placeholder
         const productImage = product.gallery?.[0] || 'https://via.placeholder.com/300';
-        // price with 2 decimals
+        // Ensure price is formatted correctly
         const productPrice = product.price ? `$${product.price.toFixed(2)}` : 'Price N/A';
-
-        // Convert product name to kebab-case for data-testid
+        // Convert product name to kebab-case for `data-testid`
         const kebabName = product.name.toLowerCase().replace(/\s+/g, '-');
 
         return (
@@ -49,17 +47,15 @@ class ProductCard extends Component {
                     <p className="product-card__price">{productPrice}</p>
                 </div>
 
-                {/* Quick Shop button hidden if out-of-stock.
-            It also only shows on hover via CSS. */}
                 {!isOutOfStock && (
                     <button
                         className="product-card__quick-shop"
                         onClick={this.handleQuickShop}
+                        title="Add to Cart"
                         aria-label="Quick Shop"
                         data-testid="quick-shop-button"
                     >
-                        {/* Example green cart icon or emoji */}
-                        🛒
+                        <i className="bi bi-cart"></i>
                     </button>
                 )}
             </Link>

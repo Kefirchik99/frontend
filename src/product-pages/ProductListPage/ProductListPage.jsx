@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import './ProductListPage.scss';
 import { useParams } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import ProductCard from '../../components/ProductCard';
 import { CartContext } from '../../context/CartContext';
+import { useHeader } from '../../context/HeaderContext';
 
-// Updated query with attributes
+// GraphQL query to fetch products by category
 const GET_PRODUCTS_BY_CATEGORY = gql`
   query GetProductsByCategory($category: String) {
     products(category: $category) {
@@ -27,39 +28,44 @@ const GET_PRODUCTS_BY_CATEGORY = gql`
 
 const ProductListPage = () => {
   const { categoryName } = useParams();
-  const effectiveCategory = categoryName.toLowerCase() === 'all' ? null : categoryName;
+  const { addItem } = useContext(CartContext); // ✅ Removed isCartOpen and setIsCartOpen (not needed here)
+  const { setCategory } = useHeader();
 
-  // Use the CartContext so we can call addItem
-  const { addItem } = React.useContext(CartContext);
+  // Standardize category format
+  const effectiveCategory = categoryName.toLowerCase() === 'all' ? null : categoryName.toLowerCase();
+
+  useEffect(() => {
+    if (categoryName) {
+      setCategory(categoryName.toLowerCase());
+    }
+  }, [categoryName, setCategory]);
 
   const { loading, error, data } = useQuery(GET_PRODUCTS_BY_CATEGORY, {
     variables: { category: effectiveCategory },
   });
 
-  // Capitalize for display
-  const pageTitle = categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
+  // Format the page title
+  const pageTitle = categoryName.charAt(0).toUpperCase() + categoryName.slice(1).toLowerCase();
 
-  // handleQuickShop receives the entire product from ProductCard
+  // Quick Shop function
   const handleQuickShop = (product) => {
-    // Build default attributes array
-    // For each attribute, pick the first item => selectedOption
-    const defaultAttributes = product.attributes?.map((attr) => ({
-      name: attr.name,
-      type: attr.type,
-      selectedOption: attr.items[0]?.value, // the first item
-      options: attr.items.map((i) => i.value),
-    })) || [];
+    const defaultAttributes =
+      product.attributes?.map((attr) => ({
+        name: attr.name,
+        type: attr.type,
+        selectedOption: attr.items[0]?.value,
+        options: attr.items.map((i) => i.value),
+      })) || [];
 
-    // Add item to cart with those default attributes
-    addItem({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      gallery: product.gallery,
-      attributes: defaultAttributes,
-    });
-
-    alert(`${product.name} added to cart with default attributes!`);
+    addItem(
+      {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        gallery: product.gallery,
+        attributes: defaultAttributes,
+      }
+    );
   };
 
   if (loading) return <p>Loading products...</p>;
@@ -68,20 +74,15 @@ const ProductListPage = () => {
   return (
     <div className="product-list-page">
       <div className="product-list-page__content">
-        <h2 className="product-list-page__title">
-          {pageTitle}
-        </h2>
+        <h2 className="product-list-page__title">{pageTitle}</h2>
+
         {data && (
           <div className="product-list-page__products">
             {data.products.map((product) => (
               <ProductCard
                 key={product.id}
                 product={product}
-                // Pass handleQuickShop => ProductCard calls this with full product
                 onQuickShop={(productId) => {
-                  // We'll find the product object from data, 
-                  // but we can just pass 'product' directly if we prefer
-                  // and avoid searching by ID. Here's the "search by ID" approach:
                   const fullProduct = data.products.find((p) => p.id === productId);
                   if (fullProduct) {
                     handleQuickShop(fullProduct);
