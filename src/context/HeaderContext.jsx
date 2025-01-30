@@ -1,9 +1,7 @@
 import React, { createContext, useState, useContext } from 'react';
 
-// Create the context
 export const HeaderContext = createContext();
 
-// Provider component
 export const HeaderProvider = ({ children }) => {
     const [category, setCategory] = useState('');
 
@@ -14,7 +12,4 @@ export const HeaderProvider = ({ children }) => {
     );
 };
 
-// Custom hook for easier access
-export const useHeader = () => {
-    return useContext(HeaderContext);
-};
+export const useHeader = () => useContext(HeaderContext);
