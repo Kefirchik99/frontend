@@ -16,19 +16,14 @@ const ProductDetailPage = () => {
     const [selectedAttributes, setSelectedAttributes] = useState({});
     const [selectedIndex, setSelectedIndex] = useState(0);
 
-    const { loading, error, data } = useQuery(GET_PRODUCT_DETAILS, {
-        variables: { id },
-    });
+    const { loading, error, data } = useQuery(GET_PRODUCT_DETAILS, { variables: { id } });
 
     useEffect(() => {
+
         if (data?.product?.category) {
-            setTimeout(() => {
-                setCategory(data.product.category.toLowerCase()); // ✅ Force immediate re-render
-            }, 0);
+            setCategory(data.product.category.toLowerCase());
         }
-    }, [data?.product?.category, setCategory]);
-
-
+    }, [data]);
 
     if (loading) return <p>Loading product details...</p>;
     if (error) return <p>Error loading product details: {error.message}</p>;
@@ -46,16 +41,13 @@ const ProductDetailPage = () => {
     const isAddToCartDisabled = !product.inStock || !allAttributesSelected;
 
     const handleAddToCart = () => {
-        if (!product.inStock) {
-            alert("This product is out of stock!");
-            return;
-        }
         const attributesForCart = product.attributes.map((attr) => ({
             name: attr.name,
             type: attr.type,
             selectedOption: selectedAttributes[attr.name],
             options: attr.items.map((i) => i.value),
         }));
+
         addItem({
             id: product.id,
             name: product.name,
@@ -63,6 +55,7 @@ const ProductDetailPage = () => {
             gallery: product.gallery,
             attributes: attributesForCart,
         });
+
         navigate("/");
     };
 
@@ -119,13 +112,13 @@ const ProductDetailPage = () => {
                                 <h4>{attr.name}:</h4>
                                 <div className="product-detail-page__attribute-items">
                                     {attr.items.map((item) => {
-                                        const isSelected =
-                                            selectedAttributes[attr.name] === item.value;
+                                        const isSelected = selectedAttributes[attr.name] === item.value;
 
                                         return (
                                             <button
                                                 key={item.value}
-                                                className={`product-detail-page__attribute-item ${isSelected ? "selected" : ""} ${attr.type === "swatch" ? "product-detail-page__attribute-item--swatch" : ""}`}
+                                                className={`product-detail-page__attribute-item ${isSelected ? "selected" : ""
+                                                    } ${attr.type === "swatch" ? "product-detail-page__attribute-item--swatch" : ""}`}
                                                 onClick={() => handleSelectAttribute(attr.name, item.value)}
                                             >
                                                 {attr.type === "swatch" ? (
@@ -152,11 +145,12 @@ const ProductDetailPage = () => {
                     className="product-detail-page__add-to-cart"
                     disabled={isAddToCartDisabled}
                     onClick={handleAddToCart}
+                    data-testid="add-to-cart"
                 >
-                    {product.inStock ? "Add to Cart" : "Out of Stock"}
+                    Add to Cart
                 </button>
 
-                <div className="product-detail-page__description">
+                <div className="product-detail-page__description" data-testid="product-description">
                     {parse(product.description)}
                 </div>
             </div>

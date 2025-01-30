@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import 'bootstrap-icons/font/bootstrap-icons.css';
-import './ProductCard.scss';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import "./ProductCard.scss";
 
 class ProductCard extends Component {
     handleQuickShop = (e) => {
@@ -16,25 +16,19 @@ class ProductCard extends Component {
         const { product } = this.props;
         const isOutOfStock = !product.inStock;
 
-        // Main product image or placeholder
-        const productImage = product.gallery?.[0] || 'https://via.placeholder.com/300';
-        // Ensure price is formatted correctly
-        const productPrice = product.price ? `$${product.price.toFixed(2)}` : 'Price N/A';
-        // Convert product name to kebab-case for `data-testid`
-        const kebabName = product.name.toLowerCase().replace(/\s+/g, '-');
+        const productImage = product.gallery?.[0] || "https://via.placeholder.com/300";
+        const productPrice = product.price ? `$${product.price.toFixed(2)}` : "Price N/A";
+
+        const kebabName = product.name.toLowerCase().replace(/\W+/g, "-").replace(/^-+|-+$/g, "");
 
         return (
             <Link
                 to={`/product/${product.id}`}
-                className={`product-card ${isOutOfStock ? 'product-card--out-of-stock' : ''}`}
+                className={`product-card ${isOutOfStock ? "product-card--out-of-stock" : ""}`}
                 data-testid={`product-${kebabName}`}
             >
                 <div className="product-card__image-container">
-                    <img
-                        src={productImage}
-                        alt={product.name}
-                        className="product-card__image"
-                    />
+                    <img src={productImage} alt={product.name} className="product-card__image" />
                     {isOutOfStock && (
                         <div className="product-card__overlay">
                             <p className="product-card__out-of-stock">Out of Stock</p>

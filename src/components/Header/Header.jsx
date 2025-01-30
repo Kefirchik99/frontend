@@ -38,11 +38,8 @@ const Header = () => {
                             <li className="header__menu" key={categoryItem.id}>
                                 <Link
                                     to={toPath}
-                                    className={`header__category ${isActive ? "header__category--active" : ""
-                                        }`}
-                                    data-testid={
-                                        isActive ? "active-category-link" : "category-link"
-                                    }
+                                    className={`header__category ${isActive ? "header__category--active" : ""}`}
+                                    data-testid={isActive ? "active-category-link" : "category-link"}
                                 >
                                     {categoryItem.name}
                                 </Link>
@@ -52,12 +49,10 @@ const Header = () => {
                 </ul>
             </nav>
 
-            {/* Logo in the center */}
             <div className="header__logo">
                 <img src={logo} alt="Logo" />
             </div>
 
-            {/* Cart Button and Cart Overlay Wrapper */}
             <div className="header__cart-container">
                 <div className="header__cart">
                     <button
@@ -71,7 +66,6 @@ const Header = () => {
                         )}
                     </button>
 
-                    {/* Cart Overlay */}
                     {isCartOpen && (
                         <CartOverlay isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
                     )}

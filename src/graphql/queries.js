@@ -52,6 +52,7 @@ export const GET_PRODUCT_DETAILS = gql`
       gallery
       price
       inStock
+      category
       attributes {
         id
         name
@@ -62,6 +63,21 @@ export const GET_PRODUCT_DETAILS = gql`
           value
         }
       }
+    }
+  }
+`;
+
+
+export const GET_ORDERS = gql`
+  query GetOrders {
+    orders {
+      id
+      items {
+        productId
+        quantity
+        price
+      }
+      total
     }
   }
 `;
